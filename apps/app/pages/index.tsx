@@ -1,14 +1,18 @@
 import { Box } from '@material-ui/core';
 import { useState } from 'react';
-import { SimpleText, SimpleTextDef } from '../components/SimpleText';
-import { SimpleTextModifier } from '../components/SimpleTextModifier';
+import { SimpleBannerData } from '../shared/BannerData';
+import SimpleBannerModifier from '../components/SimpleBannerModifier';
+import SimpleBanner from '../components/SimpleBanner';
 
 export const Index = () => {
-  const [data, setData] = useState<SimpleTextDef>();
+  const [data, setData] = useState<SimpleBannerData>({height: 500});
+  const updateData = (params) => {
+    setData(prev => ({...prev,...params}))
+  }
   return (
     <Box>
-      <SimpleTextModifier onDataChanged={(d) => setData(d)} />
-      <SimpleText data={data} />
+      <SimpleBannerModifier onDataChanged={(d) => updateData(d)}/>
+      <SimpleBanner data={data}/>
     </Box>
   );
 };

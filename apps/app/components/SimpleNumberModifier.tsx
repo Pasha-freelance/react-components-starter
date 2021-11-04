@@ -1,7 +1,10 @@
 import { Box, debounce, makeStyles, TextField } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { SimpleTextDef } from './SimpleText';
 import { SimpleBannerData } from '../shared/BannerData';
+
+export interface SimpleNumberDef {
+  height?: number
+}
 
 const useStyles = makeStyles((theme) => ({
   editor: {
@@ -11,19 +14,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initialSimpleTextDef: SimpleTextDef = {
-  text: '',
+const initialSimpleNumberDef: SimpleNumberDef = {
+  height: 500
 };
 
-export const SimpleTextModifier = (props: {
+export const SimpleNumberModifier = (props: {
   onDataChanged: (d: SimpleBannerData) => void;
 }) => {
   const classes = useStyles();
-  const [data, setData] = useState<SimpleTextDef>(() => ({
-    ...initialSimpleTextDef,
+  const [data, setData] = useState<SimpleBannerData>(() => ({
+    ...initialSimpleNumberDef,
   }));
 
-  const updateProperty = (key: keyof SimpleBannerData, value: any) => {
+  const updateProperty = (key: keyof SimpleNumberDef, value: any) => {
     setData((prev) => {
       const updated = {
         ...prev,
@@ -34,7 +37,7 @@ export const SimpleTextModifier = (props: {
     });
   };
 
-  const updateText = debounce((v: string) => updateProperty('text', v), 300);
+  const updateHeight = debounce((v: string) => updateProperty('height', v), 300);
 
   useEffect(() => {
     props.onDataChanged(data);
@@ -44,13 +47,14 @@ export const SimpleTextModifier = (props: {
   return (
     <Box padding="1rem">
       <TextField
-        style={{ width: '100%' }}
-        className={`${classes.editor}`}
-        variant="outlined"
-        defaultValue={data.text || ''}
-        label={'Text'}
-        onChange={(e) => updateText(e.target.value)}
+      style={{ width: '100%' }}
+      type={'number'}
+      className={`${classes.editor}`}
+      variant="outlined"
+      defaultValue={500}
+      label={'Height'}
+      onChange={(e) => updateHeight(e.target.value)}
       />
-    </Box>
-  );
+  </Box>
+);
 };

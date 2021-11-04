@@ -10,7 +10,7 @@ export interface SimpleTextDef {
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '1rem',
-    backgroundColor: 'lightgreen',
+    background: 'rgba(0,0,0,.2)'
   },
 }));
 

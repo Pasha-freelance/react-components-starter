@@ -1,37 +1,37 @@
 import { Box, debounce, makeStyles, TextField } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { SimpleTextDef } from './SimpleText';
-import { SimpleBannerData } from '../shared/BannerData';
+import { SimpleBannerDataDef } from '../shared/BannerData';
+
+export interface SimpleTextDef {
+  text: string;
+}
 
 const useStyles = makeStyles((theme) => ({
   editor: {
     height: 'auto',
     resize: 'none',
-    border: 'none',
-  },
+    border: 'none'
+  }
 }));
 
 const initialSimpleTextDef: SimpleTextDef = {
-  text: '',
+  text: ''
 };
 
 export const SimpleTextModifier = (props: {
-  onDataChanged: (d: SimpleBannerData) => void;
+  onDataChanged: (d: SimpleBannerDataDef) => void;
 }) => {
   const classes = useStyles();
-  const [data, setData] = useState<SimpleTextDef>(() => ({
-    ...initialSimpleTextDef,
+  const [data, setData] = useState<SimpleBannerDataDef>(() => ({
+    ...initialSimpleTextDef
   }));
 
-  const updateProperty = (key: keyof SimpleBannerData, value: any) => {
-    setData((prev) => {
-      const updated = {
+  const updateProperty = (key: keyof SimpleBannerDataDef, value: any) => {
+    setData((prev) => ({
         ...prev,
-        [key]: value,
-      };
-      props.onDataChanged(updated);
-      return updated;
-    });
+        [key]: value
+      })
+    );
   };
 
   const updateText = debounce((v: string) => updateProperty('text', v), 300);
@@ -42,11 +42,11 @@ export const SimpleTextModifier = (props: {
   }, [data]);
 
   return (
-    <Box padding="1rem">
+    <Box padding='1rem'>
       <TextField
         style={{ width: '100%' }}
         className={`${classes.editor}`}
-        variant="outlined"
+        variant='outlined'
         defaultValue={data.text || ''}
         label={'Text'}
         onChange={(e) => updateText(e.target.value)}

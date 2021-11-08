@@ -1,35 +1,42 @@
 import React, { FC } from 'react';
-import { SimpleText } from './SimpleText';
 import { PageElementProps } from '../shared/PageElementProps';
-import { SimpleBannerData } from '../shared/BannerData';
-import { Box, makeStyles } from '@material-ui/core';
+import { SimpleBannerDataStylesDef, SimpleBannerDataDef } from '../shared/BannerData';
+import { Box, makeStyles, Theme } from '@material-ui/core';
 
-const useStyles = makeStyles( theme => ({
+const useStyles = makeStyles<Theme, SimpleBannerDataStylesDef>({
   root: {
     border: '2px solid black',
-    padding:'10px',
-    marginTop:'10px',
-    overflow: 'auto'
+    padding: '10px',
+    marginTop: '10px',
+    overflow: 'auto',
+    height: props => `${props.height}px`
+  },
+  text: {
+    padding: '1rem',
+    background: 'rgba(0,0,0,.2)'
   }
-}))
+});
 
-const SimpleBanner : FC<
-  { data: SimpleBannerData} & PageElementProps
-  > = (props) => {
-  const classes = useStyles()
+const SimpleBanner: FC<
+  { data: SimpleBannerDataDef } & PageElementProps
+> = (props) => {
+  const classesProps: SimpleBannerDataStylesDef = {
+    height: props.data?.height
+  };
+  const classes = useStyles(classesProps)
   const className = `${props.className} ${classes.root}`
-  const style = {
-    height: `${props.data?.height}px`
-  }
   return (
-    <Box className={className}
-         style={{...props.style, ...style}}
-         id={props.id}
-         onMouseMove={props.onMouseMove}
-         onDoubleClick={props.onDoubleClick}
-         onClick={props.onClick}
-    >
-      <SimpleText data={props.data}/>
+    <Box className={className}>
+      <Box
+        className={classes.text}
+        style={props.style}
+        id={props.id}
+        onMouseMove={props.onMouseMove}
+        onDoubleClick={props.onDoubleClick}
+        onClick={props.onClick}
+      >
+        {props.data?.text}
+      </Box>
     </Box>
   );
 };

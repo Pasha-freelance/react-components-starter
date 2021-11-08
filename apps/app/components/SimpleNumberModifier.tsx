@@ -1,6 +1,6 @@
 import { Box, debounce, makeStyles, TextField } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { SimpleBannerData } from '../shared/BannerData';
+import { SimpleBannerDataDef } from '../shared/BannerData';
 
 export interface SimpleNumberDef {
   height?: number
@@ -19,24 +19,20 @@ const initialSimpleNumberDef: SimpleNumberDef = {
 };
 
 export const SimpleNumberModifier = (props: {
-  onDataChanged: (d: SimpleBannerData) => void;
+  onDataChanged: (d: SimpleBannerDataDef) => void;
 }) => {
   const classes = useStyles();
-  const [data, setData] = useState<SimpleBannerData>(() => ({
+  const [data, setData] = useState<SimpleBannerDataDef>(() => ({
     ...initialSimpleNumberDef,
   }));
 
-  const updateProperty = (key: keyof SimpleNumberDef, value: any) => {
-    setData((prev) => {
-      const updated = {
+  const updateProperty = (key: keyof SimpleBannerDataDef, value: any) => {
+    setData((prev) => ({
         ...prev,
-        [key]: value,
-      };
-      props.onDataChanged(updated);
-      return updated;
-    });
+        [key]: value
+      })
+    );
   };
-
   const updateHeight = debounce((v: string) => updateProperty('height', v), 300);
 
   useEffect(() => {
@@ -53,7 +49,7 @@ export const SimpleNumberModifier = (props: {
       variant="outlined"
       defaultValue={500}
       label={'Height'}
-      onChange={(e) => updateHeight(e.target.value)}
+      onChange={(e) => updateHeight( e.target.value)}
       />
   </Box>
 );

@@ -2,7 +2,7 @@ import React from 'react';
 import { SimpleNumberModifier } from './SimpleNumberModifier';
 import { SimpleTextModifier } from './SimpleTextModifier';
 import { Box, makeStyles } from '@material-ui/core';
-import { SimpleBannerData } from '../shared/BannerData';
+import { SimpleBannerDataDef } from '../shared/BannerData';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,15 +12,13 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SimpleBannerModifier = (props: {
-  onDataChanged: (d: SimpleBannerData) => void;
+  onDataChanged: (d: SimpleBannerDataDef) => void;
 }) => {
   const classes = useStyles()
   return (
     <Box className={classes.root}>
       <SimpleTextModifier onDataChanged={(d) => props.onDataChanged(d)}/>
-      <SimpleNumberModifier
-        onDataChanged={(d) => props.onDataChanged(d)}
-      />
+      <SimpleNumberModifier onDataChanged={(d) => props.onDataChanged(d)} />
     </Box>
   );
 };
